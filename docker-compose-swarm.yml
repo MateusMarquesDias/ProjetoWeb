@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  web:
+    image: python:3.10-alpine
+    deploy:
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == worker
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+    ports:
+      - "5000:5000"
+    volumes:
+      - type: bind
+        source: ./app
+        target: /code
+    command: ["flask", "run"]
+    networks:
+      - mynet
+
+  redis:
+    image: redis:alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: 
+          - node.role == manager
+    networks:
+      - mynet
+
+networks:
+  mynet:
