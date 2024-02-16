@@ -74,48 +74,51 @@ networks:
 ```
 
 ## Comandos Utilizados:
-* Iniciar o Docker
-![docker swarm init](URL da imagem)
-4.2. Implementar o Stack do Docker Compose
-docker stack deploy -c docker-compose.yml my_app
-4.3. Verificar o Estado do Stack
-docker stack ps my_app
-4.4. Escalonamento de Serviços
-docker service scale my_app_web=5
-4.5. Visualizar Logs do Serviço
-docker service logs my_app_web
-4.6. Atualizar Stack
-docker stack deploy -c docker-compose.yml my_app
-4.7. Remover Stack
-docker stack rm my_app
+* Iniciar o Docker - __`docker swarm init --advertise-addr 192.168.0.28`__
+![docker swarm init](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.1%20(2).jpg)
+* Clona um repositorio para usar no Docker Playground - __`Git Clone (repositório)`__
+![Git Clone](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.2%20(2).jpg)
+* Implementar o Stack do Docker Compose - __`docker stack deploy -c docker-compose-swarm.yml web`__
+![docker stack deploy -c docker-compose-swarm.yml web](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.2%20(2).jpg)
+* Verificar o Estado do Stack - __`docker stack ps web`__
+ ![docker stack ps web](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.3%20(2).jpg)
+* Escalonamento de Serviços - __`docker service scale web_web=5`__
+![docker service scale web_web=5](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.0%20(2).jpg)
+* Visualizar Logs do Serviço - __`docker service logs web_web`__
+![docker service scale web_web=5](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.4%20(2).jpg)
+* Atualizar Stack - __`docker stack deploy -c docker-compose.yml web`__
+![docker stack deploy -c docker-compose.yml web](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.4%20(2).jpg)
+* Remover Stack - __`docker stack rm web`__
+![docker stack rm web](https://github.com/MateusMarquesDias/ProjetoWeb/blob/main/img/web%203.4%20(2).jpg)
 
-Resultados dos Testes
+## Resultados dos Testes
 Após a implementação do ambiente Docker Swarm e a execução dos testes, os seguintes resultados foram observados:
 
-Acesso à Aplicação Web: O acesso à aplicação web foi realizado através do endereço do balanceador de carga. Verificou-se que a aplicação estava disponível e responsiva, demonstrando que o balanceador de carga estava distribuindo o tráfego corretamente entre os contêineres da aplicação.
+* Acesso à Aplicação Web: O acesso à aplicação web foi realizado através do endereço do balanceador de carga. Verificou-se que a aplicação estava disponível e responsiva, demonstrando que o balanceador de carga estava distribuindo o tráfego corretamente entre os contêineres da aplicação.
 
-Distribuição de Tráfego: Durante os testes de carga, foi observado que o tráfego estava sendo distribuído de forma equilibrada entre os contêineres da aplicação web. Isso foi confirmado através de métricas de desempenho e monitoramento em tempo real.
+* Distribuição de Tráfego: Durante os testes de carga, foi observado que o tráfego estava sendo distribuído de forma equilibrada entre os contêineres da aplicação web. Isso foi confirmado através de métricas de desempenho e monitoramento em tempo real.
 
-Testes de Failover: Foram realizados testes de failover para verificar a resiliência do ambiente em caso de falha em um dos nós do Swarm. Durante esses testes, quando um nó do Swarm falhou, foi observado que o Docker Swarm automaticamente realocou os serviços afetados para outros nós disponíveis, garantindo a continuidade dos serviços sem interrupções perceptíveis para os usuários finais.
+* Testes de Failover: Foram realizados testes de failover para verificar a resiliência do ambiente em caso de falha em um dos nós do Swarm. Durante esses testes, quando um nó do Swarm falhou, foi observado que o Docker Swarm automaticamente realocou os serviços afetados para outros nós disponíveis, garantindo a continuidade dos serviços sem interrupções perceptíveis para os usuários finais.
 
-Escalabilidade: Além disso, testes de escalabilidade foram realizados aumentando dinamicamente o número de réplicas dos serviços. Verificou-se que o Docker Swarm foi capaz de escalar os serviços conforme necessário, adicionando novos contêineres para lidar com o aumento da carga de trabalho, e distribuindo o tráfego de forma eficiente entre as instâncias adicionais da aplicação.
+* Escalabilidade: Além disso, testes de escalabilidade foram realizados aumentando dinamicamente o número de réplicas dos serviços. Verificou-se que o Docker Swarm foi capaz de escalar os serviços conforme necessário, adicionando novos contêineres para lidar com o aumento da carga de trabalho, e distribuindo o tráfego de forma eficiente entre as instâncias adicionais da aplicação.
 
-Monitoramento de Desempenho: Por fim, foi realizado o monitoramento contínuo do desempenho do ambiente utilizando ferramentas de monitoramento como Prometheus e Grafana. Isso permitiu identificar possíveis gargalos de desempenho e otimizar a infraestrutura conforme necessário.
+* Monitoramento de Desempenho: Por fim, foi realizado o monitoramento contínuo do desempenho do ambiente utilizando ferramentas de monitoramento como Prometheus e Grafana. Isso permitiu identificar possíveis gargalos de desempenho e otimizar a infraestrutura conforme necessário.
 
-Dificuldades Encontradas e Soluções Aplicadas
+* Dificuldades Encontradas e Soluções Aplicadas
 Durante a implementação do ambiente Docker Swarm, algumas dificuldades foram encontradas, mas todas foram superadas com soluções robustas:
 
-Configuração do Balanceador de Carga:
+## Configuração do Balanceador de Carga:
 
-Dificuldade: Configurar corretamente o balanceador de carga para distribuir o tráfego entre os contêineres da aplicação web.
+* Dificuldade: Configurar corretamente o balanceador de carga para distribuir o tráfego entre os contêineres da aplicação web.
 Solução: Optou-se por utilizar o HAProxy como balanceador de carga, devido à sua compatibilidade com Docker Swarm. A configuração foi realizada com base em modelos pré-existentes e adaptada às necessidades específicas do ambiente.
 Configuração do Banco de Dados Redundante:
 
-Dificuldade: Garantir a alta disponibilidade do banco de dados com uma solução de redundância.
+* Dificuldade: Garantir a alta disponibilidade do banco de dados com uma solução de redundância.
 Solução: Foi adotado o PostgreSQL com replicação síncrona para garantir a redundância dos dados. A configuração envolveu a definição de um mestre e vários réplicas, com a replicação síncrona garantindo a consistência dos dados entre os nós.
 Testes de Failover:
 
-Dificuldade: Verificar se a aplicação permanecia acessível mesmo quando ocorria uma falha em um dos nós do Swarm.
+* Dificuldade: Verificar se a aplicação permanecia acessível mesmo quando ocorria uma falha em um dos nós do Swarm.
 Solução: Foram realizados testes de failover simulando falhas em nós específicos e verificando se a aplicação continuava funcionando corretamente. Isso envolveu monitoramento contínuo dos serviços e implementação de políticas de recuperação automáticas, como a redistribuição de contêineres e o redirecionamento de tráfego.
-Conclusão
+
+## Conclusão
 A implementação do ambiente Docker Swarm para hospedagem de uma aplicação web com balanceamento de carga e um banco de dados redundante foi realizada com sucesso. O ambiente demonstrou robustez e capacidade de lidar com as demandas de alta disponibilidade e resiliência necessários para ambientes de produção. Ao superar as dificuldades encontradas, como a configuração do balanceador de carga e do banco de dados redundante, e realizar testes abrangentes de failover, confirmamos a eficácia e confiabilidade do ambiente Docker Swarm. Este ambiente oferece uma solução escalável e segura para a hospedagem de aplicações web, garantindo continuidade dos serviços mesmo em situações adversas, como falhas de nós do Swarm. Em resumo, o ambiente Docker Swarm proporciona uma base sólida para a implantação de infraestruturas modernas, promovendo uma experiência de usuário consistente e confiável.
