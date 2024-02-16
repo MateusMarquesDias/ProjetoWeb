@@ -6,27 +6,27 @@ Este relatório apresenta a arquitetura e os detalhes de implementação de um a
 ## Arquitetura do Ambiente Docker Swarm
 A arquitetura do ambiente Docker Swarm é projetada para garantir alta disponibilidade e resiliência para hospedar uma aplicação web com balanceamento de carga e um banco de dados redundante. A seguir, descrevo os componentes principais:
 
-## Serviço da Aplicação Web
+## 1. Serviço da Aplicação Web
 * Consiste em uma aplicação web distribuída em vários contêineres que são replicados em diferentes nós do Docker Swarm.
 * O número de réplicas pode ser escalado horizontalmente para atender às demandas de tráfego.
 * Cada contêiner executa a mesma instância da aplicação web, garantindo consistência e uniformidade de serviço.
 
-#### Balanceador de Carga
+#### 1.1 Balanceador de Carga
 * Atua como um ponto de entrada para o tráfego de usuários.
 * Distribui o tráfego entre os diferentes contêineres da aplicação web de forma equilibrada.
 * Garante alta disponibilidade e escalabilidade, redirecionando o tráfego para os contêineres disponíveis e saudáveis.
 
-#### Banco de Dados
+#### 1.2 Banco de Dados
 * Utiliza um banco de dados com redundância para garantir a integridade dos dados e a continuidade do serviço. 
 * A solução de banco de dados pode ser configurada com replicação síncrona ou assíncrona entre os nós para garantir a redundância e a recuperação de falhas.
 * A distribuição do banco de dados entre os nós do Swarm aumenta a disponibilidade e a tolerância a falhas.
 
-#### Docker Swarm
+#### 1.3 Docker Swarm
 * Fornece a infraestrutura para gerenciar e orquestrar os contêineres em um cluster.
 * Garante alta disponibilidade e escalabilidade dos serviços, distribuindo os contêineres entre os nós disponíveis.
 * Detecta automaticamente falhas nos nós e realiza a recuperação para manter os serviços em execução de forma contínua.
 
-#### Monitoramento e Logging
+#### 1.4 Monitoramento e Logging
 * Ferramentas de monitoramento e logging são integradas ao ambiente para monitorar a saúde e o desempenho dos serviços.
 * Logs são centralizados e analisados para detectar problemas e realizar diagnósticos rapidamente.
 * Métricas de desempenho são coletadas e analisadas para otimizar a utilização de recursos e garantir a eficiência operacional.
