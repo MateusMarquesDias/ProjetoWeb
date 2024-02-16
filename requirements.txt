@@ -2,3 +2,4 @@ flask
 redis
 sockets
 logging
+mysql-connector-python
