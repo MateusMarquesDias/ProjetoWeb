@@ -44,4 +44,4 @@ configs:
   my_config:
     file: ./config.txt
   my_secret:
-    external: true
+    file: ./secret.txt
