@@ -1,41 +1,48 @@
-version: '3.8'
+version: '3.7'
 
 services:
   web:
-    image: my-web-app:latest
-    build:
-      context: .
+    image: sua_imagem
     deploy:
-      replicas: 3
+      replicas: 5
+      endpoint_mode: vip
       placement:
-        constraints: [node.role == worker]
+        constraints:
+          - node.role == worker
+      labels:
+        - "traefik.http.services.web-app.loadbalancer.server.port=8000"
+      resources:
+        reservations:
+          cpus: '0.1'
+          memory: 50M
     ports:
       - "8000:8000"
     networks:
       - minha_rede
-    depends_on:
-      - redis
-      - mysql
-
-  redis:
-    image: redis:alpine
-    networks:
-      - minha_rede
-
-  mysql:
-    image: mysql
     deploy:
-      replicas: 2
-    networks:
-      - minha_rede
+      resources:
+        reservations:
+          cpus: '0.1'
+          memory: 50M
     environment:
-      MYSQL_ROOT_PASSWORD: "root_password"
-      MYSQL_DATABASE: "my_database"
-      MYSQL_USER: "my_user"
-      MYSQL_PASSWORD: "my_password"
-    volumes:
-      - ./mysql:/var/lib/mysql
+      - SWARM_MODE=1
+    configs:
+      - source: my_config
+        target: /app/config.txt
+      - source: my_secret
+        target: /app/secret.txt
+    ipv4_address: 192.168.0.13
 
 networks:
   minha_rede:
     driver: overlay
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/24
+
+configs:
+  my_config:
+    file: ./config.txt
+  my_secret:
+    external: true
