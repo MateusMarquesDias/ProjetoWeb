@@ -1,26 +1,22 @@
 pipeline {
-    agent {
-        // Define agent details
-    }
-
-    environment {
-        DOCKER_HUB_USR = credentials()
-        DOCKER_HUB_PSW = credentials()
-        DOCKER_HUB     = 
-        IMAGE_TAG      = 
-    }
-
+    agent any
+    
     stages {
-        stage('Analyze image') {
+        stage('Clone repository') {
             steps {
-                // Install Docker Scout
-                sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
-
-                // Log into Docker Hub
-                sh 'echo $DOCKER_HUB_PSW | docker login -u $DOCKER_HUB_USR --password-stdin'
-
-                // Analyze and fail on critical or high vulnerabilities
-                sh 'docker-scout cves $IMAGE_TAG --exit-code --only-severity critical,high'
+                git 'https://github.com/20232-ifba-saj-ads-tawii/trabalho-equipe'
+            }
+        }
+        
+        stage('Setup') {
+            steps {
+                sh 'pip install -r requirements.txt' // Instala as dependências
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'python -m pytest tests/test_app.py' // Executa os testes
             }
         }
     }
