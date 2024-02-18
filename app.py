@@ -32,4 +32,4 @@ def hello():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.ERROR)
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=8000)
