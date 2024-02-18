@@ -1,33 +1,41 @@
- services:
-    web:
-      image: 127.0.0.1:5000/stackdemo
-      deploy:
-        replicas: 5
-      build: .
-      ports:
-        - "8000:8000"
-        
-    redis:
-      image: redis:alpine
-      
-    mysql:
-      image: mysql
-      deploy:
-        replicas: 2
-      environment:
-        MYSQL_ROOT_PASSWORD: ""
-        MYSQL_DATABASE: "localhost"
-        MYSQL_PASSWORD: ""
-        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      volumes:
-        - ./mysql:/var/lib/mysql
+version: '3.8'
 
-    jenkins:
-      image: jenkins/jenkins:lts
-      ports:
-      - "8080:8080"
-      - "50000:50000"
-      volumes:
-      - jenkins_home:/var/jenkins_home
-      networks:
-      - jenkins_net
+services:
+  web:
+    image: my-web-app:latest
+    build:
+      context: .
+    deploy:
+      replicas: 3
+      placement:
+        constraints: [node.role == worker]
+    ports:
+      - "8000:8000"
+    networks:
+      - minha_rede
+    depends_on:
+      - redis
+      - mysql
+
+  redis:
+    image: redis:alpine
+    networks:
+      - minha_rede
+
+  mysql:
+    image: mysql
+    deploy:
+      replicas: 2
+    networks:
+      - minha_rede
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_password"
+      MYSQL_DATABASE: "my_database"
+      MYSQL_USER: "my_user"
+      MYSQL_PASSWORD: "my_password"
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+networks:
+  minha_rede:
+    driver: overlay
