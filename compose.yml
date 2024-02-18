@@ -1,39 +1,33 @@
-version: '3.8'
+ services:
+    web:
+      image: 127.0.0.1:5000/stackdemo
+      deploy:
+        replicas: 5
+      build: .
+      ports:
+        - "8000:8000"
+        
+    redis:
+      image: redis:alpine
+      
+    mysql:
+      image: mysql
+      deploy:
+        replicas: 2
+      environment:
+        MYSQL_ROOT_PASSWORD: ""
+        MYSQL_DATABASE: "localhost"
+        MYSQL_PASSWORD: ""
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      volumes:
+        - ./mysql:/var/lib/mysql
 
-services:
-  web:
-    image: python:3.10-alpine
-    deploy:
-      replicas: 3
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_RUN_HOST=0.0.0.0
-    ports:
-      - "5000:5000"
-    networks:
-      - mynet
-
-  redis:
-    image: redis:alpine
-    deploy:
-      replicas: 1
-    networks:
-      - mynet
-
-  mysql:
-    image: mysql:latest
-    deploy:
-      replicas: 1
-    environment:
-      MYSQL_ROOT_PASSWORD: ''
-      MYSQL_DATABASE: 'localhost'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: ''
-    networks:
-      - mynet
-
-networks:
-  mynet:
-
-networks:
-  mynet:
+    jenkins:
+      image: jenkins/jenkins:lts
+      ports:
+      - "8080:8080"
+      - "50000:50000"
+      volumes:
+      - jenkins_home:/var/jenkins_home
+      networks:
+      - jenkins_net
