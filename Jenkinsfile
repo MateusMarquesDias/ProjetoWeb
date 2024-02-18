@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git 'https://github.com/20232-ifba-saj-ads-tawii/trabalho-equipe'
+                git 'https://github.com/seu-usuario/seu-repositorio'
             }
         }
         
