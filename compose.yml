@@ -31,7 +31,6 @@ services:
         target: /app/config.txt
       - source: my_secret
         target: /app/secret.txt
-    ipv4_address: 192.168.0.13
 
 networks:
   minha_rede:
@@ -40,9 +39,3 @@ networks:
       driver: default
       config:
         - subnet: 192.168.0.0/24
-
-configs:
-  my_config:
-    file: ./config.txt
-  my_secret:
-    external: true
