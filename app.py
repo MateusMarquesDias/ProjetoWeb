@@ -28,8 +28,15 @@ def get_ip():
 
 @app.route('/')
 def hello():
-    return get_ip()
+    cache.incr('hits')
+    cursor = db.cursor()
+    cursor.execute("SELECT COUNT(*) FROM my_table")
+    result = cursor.fetchone()[0]
+    return jsonify({
+        'message': 'Hello Docker Swarm!',
+        'redis_hits': int(cache.get('hits')),
+        'mysql_records': result
+    })
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.ERROR)
     app.run(host='0.0.0.0', port=8000)
